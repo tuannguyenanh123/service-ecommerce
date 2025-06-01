@@ -3,9 +3,12 @@
 const mongoose = require("mongoose");
 
 const { countConnect } = require("../helpers/check.connect");
+const {
+  db: { host, name, port },
+} = require("../configs/congif.mongodb");
 
-const connectionString = `mongodb://localhost:27017/shopDev`;
-
+const connectionString = `mongodb://${host}:${port}/${name}`;
+console.log("connectionString:: ", connectionString);
 class Database {
   constructor() {
     this.connect();
@@ -22,7 +25,7 @@ class Database {
 
     mongoose
       .connect(connectionString, {
-        maxPoolSize: 50
+        maxPoolSize: 50,
       })
       .then((_) => {
         countConnect();
