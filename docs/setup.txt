@@ -1,0 +1,1 @@
+Singleton partern là phương thức chỉ gọi lại một lần đối với database mongo
