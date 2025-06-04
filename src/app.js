@@ -6,7 +6,6 @@ const compression = require("compression")
 const app = express()
 const mongoose = require("./dbs/init.mongodb")
 const router = require("./routes")
-// const { checkOverload } = require("./helpers/check.connect")
 
 //init middlewares
 app.use(morgan("dev"))
@@ -25,5 +24,14 @@ mongoose
 app.use('/', router)
 
 //handing errors
+app.use((error, req, res, next) => {
+    const statusCode = error.status || 500;
+    const message = error.message || 'Internal server error'
+    return res.status(statusCode).json({
+        status: 'error',
+        code: statusCode,
+        message
+   })
+})
 
 module.exports = app
