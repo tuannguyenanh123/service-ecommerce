@@ -709,7 +709,28 @@ class BadRequestError extends ErrorResponse {
     }
 }
 
+class AuthFailError extends ErrorResponse {
+    constructor(message = ReasonStatusCode.UNAUTHORIZED, statusCode = StatusCode.UNAUTHORIZED) {
+        super(message, statusCode)
+    }
+}
+
+class NotFoundError extends ErrorResponse {
+    constructor(message = ReasonStatusCode.NOT_FOUND, statusCode = StatusCode.NOT_FOUND) {
+        super(message, statusCode)
+    }
+}
+
+class ForbiddenError extends ErrorResponse {
+    constructor(message = ReasonStatusCode.FORBIDDEN, statusCode = StatusCode.FORBIDDEN) {
+        super(message, statusCode)
+    }
+}
+
 module.exports = {
     ConflictRequestError,
-    BadRequestError
+    BadRequestError,
+    AuthFailError,
+    NotFoundError,
+    ForbiddenError
 }
