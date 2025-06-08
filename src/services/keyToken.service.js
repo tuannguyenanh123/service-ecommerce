@@ -49,7 +49,7 @@ class KeyTokenService {
       .findOne({
         user: userId,
       })
-      .lean();
+      // .lean();
   };
 
   static findByRefreshTokenUsed = async (refreshToken) => {

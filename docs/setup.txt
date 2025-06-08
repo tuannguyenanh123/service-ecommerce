@@ -1,1 +1,3 @@
 Singleton partern là phương thức chỉ gọi lại một lần đối với database mongo
+
+Factory Pattern + Strategy partern for product table create product

@@ -134,7 +134,7 @@ class AccessService {
     const foundToken = await KeyTokenService.findByRefreshTokenUsed(
       refreshToken
     );
-    
+
     if (foundToken) {
       const { userId, email } = await verifyJWT(
         refreshToken,
@@ -164,13 +164,52 @@ class AccessService {
     );
 
     //update tokens
-    await KeyTokenService.updateRefreshTokenUsed(userId, refreshToken, tokens.refreshToken);
+    await KeyTokenService.updateRefreshTokenUsed(
+      userId,
+      refreshToken,
+      tokens.refreshToken
+    );
 
     return {
       user: {
         userId,
         email,
       },
+      tokens,
+    };
+  };
+
+  static handlerRefreshTokenV2 = async ({ keyStore, user, refreshToken }) => {
+    const { userId, email } = user;
+
+    if (keyStore.refreshTokensUsed.includes(refreshToken)) {
+      await KeyTokenService.deleteKeyById(userId);
+      throw new ForbiddenError("Forbidden Error!!! Please relogin");
+    }
+    if (keyStore.refreshToken !== refreshToken)
+      throw new AuthFailError("Shop not registered");
+    const foundShop = await findByEmail({ email });
+    if (!foundShop) throw new AuthFailError("Shop not registered");
+
+    //create 1 series token new
+    const tokens = await createTokenPair(
+      {
+        userId,
+        email,
+      },
+      keyStore.publicKey,
+      keyStore.privateKey
+    );
+
+    //update tokens
+    await KeyTokenService.updateRefreshTokenUsed(
+      userId,
+      refreshToken,
+      tokens.refreshToken
+    );
+
+    return {
+      user,
       tokens,
     };
   };
