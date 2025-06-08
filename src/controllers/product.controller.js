@@ -10,10 +10,68 @@ class ProductController {
       message: "Create product success!",
       metadata: await ProductFactory.createProduct(product_type, {
         ...req.body,
-        product_shop: req.user.userId
+        product_shop: req.user.userId,
       }),
     }).send(res);
   };
+
+  publishProductByShop = async (req, res, next) => {
+    const { id } = req.params
+    return new SuccessResponse({
+      message: "Published product success!",
+      metadata: await ProductFactory.publishProductByShop({
+        product_shop: req.user.userId,
+        product_id: id
+      }),
+    }).send(res);
+  }
+
+  unPublishProductByShop = async (req, res, next) => {
+    const { id } = req.params
+    return new SuccessResponse({
+      message: "UnPublished product success!",
+      metadata: await ProductFactory.unPublishProductByShop({
+        product_shop: req.user.userId,
+        product_id: id
+      }),
+    }).send(res);
+  }
+
+  //QUERY
+  getAllDraftsForShop = async (req, res, next) => {
+    const { limit, skip } = req.query;
+    return new SuccessResponse({
+      message: "Get draft products success!",
+      metadata: await ProductFactory.findAllDraftsForShop({
+        product_shop: req.user.userId,
+        limit,
+        skip,
+      }),
+    }).send(res);
+  };
+
+  getAllPublishForShop = async (req, res, next) => {
+    const { limit, skip } = req.query;
+    return new SuccessResponse({
+      message: "Get published products success!",
+      metadata: await ProductFactory.findAllPublishForShop({
+        product_shop: req.user.userId,
+        limit,
+        skip,
+      }),
+    }).send(res);
+  };
+
+  getSearchProducts = async (req, res, next) => {
+    const { keySearch } = req.query;
+    return new SuccessResponse({
+      message: "Get search products success!",
+      metadata: await ProductFactory.searchProducts({
+        keySearch
+      }),
+    }).send(res);
+  };
+  //END QUERY
 }
 
 module.exports = new ProductController();
