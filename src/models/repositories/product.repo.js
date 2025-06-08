@@ -2,6 +2,7 @@
 
 const { Types } = require("mongoose");
 const { product } = require("../product.model");
+const { getSelectData, unGetSelectData } = require("../../utils");
 
 const searchProductByUser = async ({ keySearch }) => {
   const regexSearch = new RegExp(keySearch);
@@ -22,6 +23,25 @@ const searchProductByUser = async ({ keySearch }) => {
     .sort({ score: { $meta: "textScore" } })
     .lean();
   return results;
+};
+
+const findAllProducts = async ({ limit, sort, page, filter, select }) => {
+  const skip = (page - 1) * limit;
+  const sortBy = sort === "ctime" ? { _id: -1 } : { _id: 1 };
+  const selectFormat = getSelectData(select);
+
+  return await product
+    .find(filter)
+    .sort(sortBy)
+    .skip(skip)
+    .limit(limit)
+    .select(selectFormat)
+    .lean();
+};
+
+const getProductDetail = async ({ product_id, unSelect }) => {
+  const selectFormat = unGetSelectData(unSelect);
+  return await product.findById(product_id).select(selectFormat).lean();
 };
 
 const findAllDraftsForShop = async ({ keySearch }) => {
@@ -58,6 +78,21 @@ const unPublishProductByShop = async ({ product_shop, product_id }) => {
   return 1;
 };
 
+const updateProductById = async ({
+  productId,
+  payload,
+  model,
+  isNew = true,
+}) => {
+  return await model.findByIdAndUpdate(
+    productId,
+    payload,
+    {
+      new: isNew
+    }
+  );
+};
+
 const queryProduct = async ({ query, limit, skip }) => {
   return await product
     .find(query)
@@ -77,4 +112,7 @@ module.exports = {
   findAllPublishForShop,
   unPublishProductByShop,
   searchProductByUser,
+  findAllProducts,
+  getProductDetail,
+  updateProductById,
 };

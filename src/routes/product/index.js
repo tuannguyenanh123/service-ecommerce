@@ -8,10 +8,13 @@ const router = express.Router()
 
 //route unauth
 router.get('/search', asyncHandler(productController.getSearchProducts))
+router.get('', asyncHandler(productController.getAllProducts))
+router.get('/:id', asyncHandler(productController.getDetailProduct))
 
 router.use(authenticationV2)
 
 router.post('', asyncHandler(productController.createProduct))
+router.patch('/:id', asyncHandler(productController.updateProduct))
 router.post('/publish/:id', asyncHandler(productController.publishProductByShop))
 router.post('/unpublish/:id', asyncHandler(productController.unPublishProductByShop))
 
