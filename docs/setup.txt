@@ -1,3 +1,11 @@
 Singleton partern là phương thức chỉ gọi lại một lần đối với database mongo
 
 Factory Pattern + Strategy partern for product table create product
+
+### Service discount:
+1. Generator discount code [shop | admin]
+2. Get all discount code [user | shop]
+3. get all product by discount code [user]
+4. get discount amount [user]
+5. delete discount code [admin | shop]
+6. cancel discount code [user]
