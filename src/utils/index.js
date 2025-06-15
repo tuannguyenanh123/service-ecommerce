@@ -42,7 +42,7 @@ const removeFalsyNestedObject = (obj) => {
   return final
 };
 
-const convertToObjIdMongodb = id => Types.ObjectId(id)
+const convertToObjIdMongodb = id => new Types.ObjectId(id)
 
 module.exports = {
   getInforData,

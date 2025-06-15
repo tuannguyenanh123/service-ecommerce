@@ -9,3 +9,7 @@ Factory Pattern + Strategy partern for product table create product
 4. get discount amount [user]
 5. delete discount code [admin | shop]
 6. cancel discount code [user]
+
+
+// solution oroder
++ optimistic locks: chặn các luồng đi cuả tất cả nhiều luồng, cho phép một luồng đi vào và lấy giá trị xong trả về lại và xong đến luồng khác, luồng khác ... sử dụng trong case ko để tồn kho quá bán
