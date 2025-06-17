@@ -13,3 +13,12 @@ Factory Pattern + Strategy partern for product table create product
 
 // solution oroder
 + optimistic locks: chặn các luồng đi cuả tất cả nhiều luồng, cho phép một luồng đi vào và lấy giá trị xong trả về lại và xong đến luồng khác, luồng khác ... sử dụng trong case ko để tồn kho quá bán
+
+
+#### Redis
+why use ?
+2 điểm mấu chốt là hiệu suất cao và đồng thời cao
++ hiệu suất cao: người dùng access => 1 số data trong db đầu tiên => chậm vì read từ disk cứng => lần tiếp theo có thể lấy trực tiếp từ bộ đệm (cache)
++ đồng thời cao: các request mà bộ đệm hoạt động trực tiếp có thể chịu được bao nhiêu lớn hơn nhiều hơn sao việc mình truy cập trực tiếp vào db => ta xem xét chuyển một phần nào đó cơ sở dữ liệu sang bộ đệm để một phần request chuyển đến bộ đệm và truy xuất dữ liệu mà ko cần đi qua db nào nữa
+(string, hash) => kiểu dữ liệu
+# kịch bản sử dụng

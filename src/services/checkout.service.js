@@ -118,9 +118,22 @@ class CheckoutService {
 
     // case insert success => remove product in cart
     if(newOrder){
-        
+
     }
     return newOrder
+  }
+
+  static async getOrdersByUser(){
+
+  }
+
+  static async getDetailOrderByUser(){
+    
+  }
+
+  // admin | shop
+  static async updateOrderStatusByShop(){
+    
   }
 }
 
