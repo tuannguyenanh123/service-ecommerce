@@ -22,8 +22,7 @@ client.on("interactionCreate", async (interaction) => {
     await interaction.reply("Pong!");
   }
 });
-const token = "MTM4NDkyNzA2MTgyMjU0MTk5NA.GFWTH3.bJOnigzy-52HAFMJ_EOpi3wpnw3wLy12mrI5uE"
-client.login(token);
+client.login(process.env.BOT_TOKEN);
 
 client.on("messageCreate", msg => {
     if(msg.author.bot) return;

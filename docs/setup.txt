@@ -22,3 +22,6 @@ why use ?
 + đồng thời cao: các request mà bộ đệm hoạt động trực tiếp có thể chịu được bao nhiêu lớn hơn nhiều hơn sao việc mình truy cập trực tiếp vào db => ta xem xét chuyển một phần nào đó cơ sở dữ liệu sang bộ đệm để một phần request chuyển đến bộ đệm và truy xuất dữ liệu mà ko cần đi qua db nào nữa
 (string, hash) => kiểu dữ liệu
 # kịch bản sử dụng
+
+#transaction redis
+1. success, fail
