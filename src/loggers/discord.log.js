@@ -22,8 +22,8 @@ client.on("interactionCreate", async (interaction) => {
     await interaction.reply("Pong!");
   }
 });
-client.login(process.env.BOT_TOKEN);
 
+client.login(process.env.BOT_TOKEN);
 client.on("messageCreate", msg => {
     if(msg.author.bot) return;
     if(msg.content === "hello") {
