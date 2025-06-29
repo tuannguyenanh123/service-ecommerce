@@ -15,6 +15,7 @@ const {
   updateProductById,
 } = require("../models/repositories/product.repo");
 const { removeFalsyObject, removeFalsyNestedObject } = require("../utils");
+const NotificationService = require("./notification.service");
 
 // define Factory class to create product
 class ProductFactory {
@@ -75,7 +76,12 @@ class ProductFactory {
       sort,
       filter,
       page,
-      select: ["product_name", "product_price", "product_thumb", "product_shop"],
+      select: [
+        "product_name",
+        "product_price",
+        "product_thumb",
+        "product_shop",
+      ],
     });
   }
 
@@ -109,15 +115,27 @@ class Product {
   // create NEW PRODUCT
   async createProduct(_id) {
     const newProduct = await product.create({ ...this, _id });
-    if(newProduct){
+    if (newProduct) {
       // add product stock in inventory
       await insertInventory({
         productId: newProduct._id,
         shopId: this.product_shop,
-        stock: this.product_quantity
+        stock: this.product_quantity,
+      });
+      // push noti to system
+      NotificationService.pushNotiToSystem({
+        type: "SHOP-001",
+        receivedId: 1,
+        senderId: this.product_shop,
+        options: {
+          product_name: this.product_name,
+          shop_name: this.product_shop,
+        },
       })
+        .then((res) => console.log(res))
+        .catch((err) => console.log("error::", err));
     }
-    return newProduct
+    return newProduct;
   }
 
   async updateProduct(productId, payload) {
@@ -152,7 +170,10 @@ class Clothing extends Product {
       });
     }
     // update parent
-    const updateProduct = await super.updateProduct(productId, removeFalsyNestedObject(objParams));
+    const updateProduct = await super.updateProduct(
+      productId,
+      removeFalsyNestedObject(objParams)
+    );
     return updateProduct;
   }
 }
