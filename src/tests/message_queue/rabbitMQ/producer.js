@@ -1,5 +1,5 @@
 const amqplib = require("amqplib");
-const message = "hello microservice, i learning rabbitMQ";
+const message = "create product";
 
 const runProducer = async () => {
   try {
