@@ -29,6 +29,7 @@ class AccessService {
 
   static login = async ({ email, password, refreshToken = null }) => {
     const foundShop = await findByEmail({ email });
+    
     if (!foundShop) throw new BadRequestError("Shop not registered");
 
     const matchPass = bcrypt.compare(password, foundShop.password);
