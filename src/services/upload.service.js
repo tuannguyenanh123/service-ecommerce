@@ -2,9 +2,11 @@
 
 const cloudinary = require("../configs/cloudinary.config");
 const { PutObjectCommand, s3, GetObjectCommand, DeleteBucketCommand } = require("../configs/s3.config");
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+// import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+const { getSignedUrl } = require("@aws-sdk/cloudfront-signer")
 
 const randomImgName = () => crypto.randomUUID(16).toString('hex')
+const urlImgPublic = '' // use cloudfront
 
 const uploadImageFromUrl = async () => {
   try {
@@ -83,14 +85,18 @@ const uploadImageFromLocalAws = async ({ file }) => {
     });
     //export url
     const result = await s3.send(command)
-    const singedUrl = new GetObjectCommand({
-      Bucket: process.env.AWS_BUCKET_NAME,
-      Key: imgName,
-
+    // have cloudfront url export
+    const url = getSignedUrl({
+      url: `${urlImgPublic}/${imgName}`,
+      keyPairId: process.env.CLOUD_FRONT_ID_PUBLIC_KEY,
+      dateLessThan: new Date(Date.now() + 1000 * 60), // expire 60s
+      privateKey: process.env.AWS_BUCKET_PRIVATE_KEY_ID
     });
-    const url = await getSignedUrl(s3, singedUrl, { expiresIn: 3600 });
 
-    return url;
+    return {
+      url,
+      result
+    };
   } catch (error) {
     console.log("Upload S3 error::", error);
   }
