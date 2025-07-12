@@ -6,6 +6,7 @@ const compression = require("compression")
 const app = express()
 const mongoose = require("./dbs/init.mongodb")
 const router = require("./routes")
+const { errors } = require("celebrate")
 
 //init middlewares
 app.use(morgan("dev"))
@@ -27,6 +28,9 @@ mongoose
 
 //init routers
 app.use('/', router)
+
+//validation input
+app.use(errors());
 
 //handing errors
 app.use((error, req, res, next) => {
