@@ -1,0 +1,1 @@
+<!-- repo git ========> push code =========> main branch ========> ec2 tracking changing ====> auto deloy -->

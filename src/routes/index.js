@@ -12,6 +12,8 @@ router.use(apiKey)
 router.use(permission('0000'))
 
 // check permission
+router.use("/api/v1/rbac", require("./rbac"))
+router.use("/api/v1/profile", require("./profile"))
 router.use("/api/v1/upload", require("./upload"))
 router.use("/api/v1/inventory", require("./inventory"))
 router.use("/api/v1/notification", require("./notification"))

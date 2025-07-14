@@ -28,3 +28,5 @@ why use ?
 
 #### service aws: integrate IAM, Bucket S3, EC2
 ### implement cloudfront for storge image
+
+### setup phân quyền RBAC
