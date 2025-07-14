@@ -1,5 +1,7 @@
 'use strict'
 
+const myloggerLog = require("../loggers/mylogger.log")
+
 const StatusCode = {
     /**
    * Official Documentation @ https://tools.ietf.org/html/rfc7231#section-6.2.1
@@ -694,6 +696,15 @@ class ErrorResponse extends Error {
     constructor(message, status) {
         super(message) //truyền mess vào thèn cha
         this.status = status
+        this.now = Date.now()
+
+        // myloggerLog.error(this.message, [
+        //     '/api/v1/register',
+        //     'vv3333',
+        //     {
+        //         error: '401'
+        //     }
+        // ])
     }
 }
 
